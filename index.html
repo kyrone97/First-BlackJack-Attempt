@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Player Cards</h2>
+    <div id="player-hand" ></div>
+    <h3>player hand value</h3>
+    <div id="player-hand-value"></div>
+    <h2>Dealer Cards</h2>
+    <div id="dealer-hand"></div>
+    <h3>Dealer hand value</h3>
+    <div id="dealer-hand-value"></div> 
+    <h2>Game Status</h2>
+    <div id="game-status"></div>
+    <button onclick="hit()" >Hit</button>
+    <button onclick="stand()">Stand</button>
+    <button onClick="window.location.reload();">New Game</button>
+
+    <script>
+        
+        
+let deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+            2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+            2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,
+            2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+
+
+        let playerHand;
+        let dealerHand;
+        let newPlayerHand;
+
+        function drawRandomCard(deck) {
+            let randomIndex = Math.floor(deck.length * Math.random());
+            return deck[randomIndex];
+        }
+
+
+        function startGame() {
+            playerHand = [drawRandomCard(deck), drawRandomCard(deck)];
+            dealerHand = [drawRandomCard(deck), drawRandomCard(deck)];
+        }
+
+        function getHandValue(hand) {
+            let sum = 0
+            for (let i = 0; i < hand.length; i++) {
+                sum = sum + hand[i];
+            }
+            return sum;
+        }
+
+        startGame();
+        console.log('player hand:' + playerHand);
+        console.log('player Hand value:' + getHandValue(playerHand));
+        console.log('dealer hand:' + dealerHand);
+        console.log('dealer hand value:' + getHandValue(dealerHand));
+
+        function hit() {
+            playerHand.push(drawRandomCard(deck));
+            console.log("new player hand:" + playerHand)
+            document.getElementById("player-hand").innerHTML = playerHand
+            document.getElementById("player-hand-value").innerHTML = getHandValue(playerHand)
+            if (getHandValue(playerHand) > 21) {
+                document.getElementById("game-status").innerHTML = "BUST";
+                console.log("Bust");
+            }
+        }
+
+        function stand(){
+            if (getHandValue(playerHand) <= 21 && (getHandValue(playerHand) > getHandValue(dealerHand))) {
+
+                document.getElementById("game-status").innerHTML = "Winner";
+                console.log("winner");
+            }
+            else
+            {
+                if (getHandValue(playerHand) > 21 || (getHandValue(playerHand) < getHandValue(dealerHand))) {
+
+                    document.getElementById("game-status").innerHTML = "Loser";
+                    console.log("Loser");
+            }
+
+             }
+        }
+
+
+        document.getElementById("player-hand").innerHTML = playerHand;
+
+        document.getElementById("player-hand-value").innerHTML = getHandValue(playerHand)
+
+        document.getElementById("dealer-hand").innerHTML = dealerHand;
+
+        document.getElementById("dealer-hand-value").innerHTML = getHandValue(dealerHand)
+
+    </script>
+
+</body>
+</html>
